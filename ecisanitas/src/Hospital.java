@@ -13,4 +13,13 @@ public class Hospital {
     private List<Office> offices;
     private Location location;
 
+    public Doctor findDoctor(String speciality) {
+        for (Doctor doctor : doctors) {
+            if (doctor.getSpeciality().equals(speciality)) {
+                return doctor;
+            }
+        }
+        return null;
+    }
+
 }
