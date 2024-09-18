@@ -1,0 +1,142 @@
+Tengo el siguiente diseño de clases:
+"""EciSanitas es una prestigiosa empresa de medicina prepagada enfocada en brindar servicios de salud tales como citas médicas y atención a enfermedades. Para el cumplimiento de esta misión cuenta con diferentes hospitales a lo largo del país para brindar la mejor cobertura a nivel nacional. Si bien la infraestructura de EciSanitas es grande no todos sus hospitales cuentan con los equipos para todos sus tratamientos.
+EciSanitas tiene entre sus principales funciones:
+Tratamiento de enfermedades: Ecisanitas tiene diferentes tratamientos para diversas enfermedades diagnosticadas a sus pacientes. Cada hospital ofrece un conjunto de tratamientos, no toda la red de hospitales cuenta con todos los tratamientos ofrecidos por EciSanitas. Para la atención de citas,  los hospitales cuentan con un equipo de doctores de diferentes especialidades y consultorios adecuados asignados a cada médico. Los consultorios pueden ser de 3 tipos (1 general, 2: odontología, 3: pediatría)
+Asignación de citas médicas: EciSanitas atienede citas de las 8:00 a.m. a las 8:00 p.m. en franjas fijas de 20 minutos. Las franjas se identifican por un número consecutivo; por ejemplo, 8:00 es 1 y 9:00 es 4. Un paciente debe poder solicitar una cita médica, informando el hospital y la especialidad requerida o el doctor de su preferencia, al crear la cita médica debe indicarse el doctor, la fecha y franja de la misma junto con el consultorio correspondiente donde será atendido.
+Gestión de historia clínica: Cada paciente debe tener una historia clínica con los detalles de sus enfermedades y un nivel de riesgo asociado (1 siendo leve y 5 siendo mortal) junto con los tratamientos que le han recetado para dichas enfermedades. Las enfermedades y los tratamientos son los diagnosticados o prescritos durante las diferentes citas médicas"""
+
+Codigo Java de las clases:
+"""import lombok.Data;
+
+import java.util.TreeMap;
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+public class Appointment {
+
+    private String id;
+    private LocalDate fecha;
+    private int time;
+    private String reason;
+
+    private Doctor doctor;
+    private Office office;
+    private List<PatientIllness> patientIllnesses;
+    private List<Treatment> patientTreatments;
+
+}
+
+@Data
+public class Doctor {
+
+    private String id;
+    private String name;
+    private String speciality;
+    private String telefono;
+
+    private Office office;
+
+
+}
+
+@Data
+public class ECISanitas {
+
+    private TreeMap<String, Patient> patients;
+    private TreeMap<String, Illness> illnesses;
+    private TreeMap<String, Hospital> hospitals;
+
+}
+
+@Data
+public class Hospital {
+
+    private String name;
+    private String address;
+
+    private List<Treatment> treatments;
+    private List<Doctor> doctors;
+    private List<Office> offices;
+    private Location location;
+
+}
+
+@Data
+public class Illness {
+
+    private String name;
+    private String description;
+    private List<Treatment> treatments;
+
+}
+
+@Data
+public class Location {
+
+    private String department;
+    private String city;
+
+}
+
+@Data
+public class MedicalHistory {
+
+    private LocalDate startDate;
+    private Patient patient;
+    private List<PatientIllness> patientIllnesses;
+
+}
+
+@Data
+public class Office {
+
+    private int number;
+    private int type;
+
+}
+
+@Data
+public class Patient {
+
+    private String idCard;
+    private String name;
+    private String address;
+    private LocalDate birthDate;
+    private LocalDate registrationDate;
+
+    private MedicalHistory medicalHistory;
+    private List<Appointment> appointments;
+
+}
+
+@Data
+public class PatientIllness {
+
+    private int riskLevel;
+    private Appointment appointment;
+    private Illness illness;
+    private List<Treatment> treatments;
+
+}
+
+@Data
+public class Treatment {
+
+    private String name;
+    private String description;
+    private String duration;
+
+}
+
+"""
+
+Ayudame a diseñar un metodo para que un paciente agende una cita medica. Que el metodo interactue con 4 objetos/clases. Que el metodo inicie en la clase Ecitroniks y sea llamado por un actor.
+
+El metod debe tener:
+1. diagrama de secuencia en texto plano donde se vean las interacciones entre objetos y las decoraciones
+2. especificación (documentación + encabezado) del método. Tambien agregar una sección de "reglas" donde se deben definir las condiciones y casuisticas del metodo
+3. Es posible agregar mas elementos (atributos y metodos nuevos al codigo) pero se debe especificar qué se le agregó.
+3. código de la clase responsable inicial (encabezado y atributos). Documente el invariante.
+4. Implementacion de cada uno de los métodos correspondientes a la solución. Incluya la documentación. 
+5. Los metodos diseñados deben tener al menos 2 o 3 decoraciones (loop - condicional (opt, alt))
