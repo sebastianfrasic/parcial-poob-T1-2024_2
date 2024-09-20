@@ -11,12 +11,19 @@ public class Doctor {
     private String telefono;
 
     private Office office;
-
-    private boolean[] availability = new boolean[36]; // Representa 36 franjas horarias
-
+    private boolean isAvailable;
 
     // Verifica si el doctor está disponible en una franja horaria específica
-    public boolean isAvailable(int timeSlot) {
-        return availability[timeSlot];
+
+    /**
+     * Verifica si el doctor está disponible en una fecha específica.
+     *
+     * @param date La fecha para la cual se verifica la disponibilidad.
+     * @return true si el doctor está disponible, false si no lo está.
+     */
+    public boolean isAvailable(LocalDate date, int timeSlot) {
+        // Aquí puede ir la lógica para determinar si el doctor está disponible en esa fecha.
+        // Por simplicidad, retornamos el valor del atributo isAvailable.
+        return this.isAvailable;
     }
 }

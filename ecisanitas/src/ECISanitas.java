@@ -37,41 +37,13 @@ public class ECISanitas {
      * @param timeSlot            Franja horaria de la cita (1 = 8:00 a.m., 36 = 8:00 p.m.).
      */
     public void scheduleAppointment(String patientId, String hospitalName, String requestedSpeciality, LocalDate date, int timeSlot) {
-        Patient patient = findPatientById(patientId);
-        Hospital hospital = findHospitalByName(hospitalName);
-        List<Doctor> doctors = hospital.getDoctors();
+        Patient patient = patients.get(patientId);
+        Hospital hospital = hospitals.get(hospitalName);
 
-        // Verificar disponibilidad de doctores en esa especialidad y en ese horario
-        for (Doctor doctor : doctors) {
-            String doctorSpeciality = doctor.getSpeciality();
-            boolean isDoctorAvailable = doctor.isAvailable(timeSlot);
-            if (doctorSpeciality.equals(requestedSpeciality) && isDoctorAvailable) {
-                Office office = doctor.getOffice();
-                Appointment appointment = createAppointment(doctor, office, date, timeSlot);
-                patient.addAppointment(appointment);
-                break;
-            }
+        if (patient != null && hospital != null) {
+            hospital.createAppointment(patient, requestedSpeciality, date, timeSlot);
         }
-    }
 
-    public Hospital findHospitalByName(String hospitalName) {
-        return hospitals.get(hospitalName);
-    }
-
-    // Método para encontrar un paciente por su ID
-    private Patient findPatientById(String patientId) {
-        return patients.get(patientId);
-    }
-
-
-    // Método para crear una cita médica
-    private Appointment createAppointment(Doctor doctor, Office office, LocalDate date, int timeSlot) {
-        Appointment appointment = new Appointment();
-        appointment.setDoctor(doctor);
-        appointment.setOffice(office);
-        appointment.setFecha(date);
-        appointment.setTime(timeSlot);
-        return appointment;
     }
 
 }
