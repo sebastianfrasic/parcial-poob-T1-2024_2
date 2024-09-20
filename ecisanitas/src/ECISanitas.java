@@ -46,4 +46,23 @@ public class ECISanitas {
 
     }
 
+    public void updateMedicalHistory(String patientId, String illnessName, Treatment treatment) {
+        // Validar que el paciente exista
+        Patient patient = patients.get(patientId);
+        if (patient == null) {
+            System.out.println("Paciente no encontrado");
+            return;
+        }
+
+        // Validar que la enfermedad exista
+        Illness illness = illnesses.get(illnessName);
+        if (illness == null) {
+            System.out.println("Enfermedad no encontrada");
+            return;
+        }
+
+        // Delegar la actualización de la historia clínica al paciente
+        patient.addPatientIllness(illness, treatment);
+    }
+
 }
