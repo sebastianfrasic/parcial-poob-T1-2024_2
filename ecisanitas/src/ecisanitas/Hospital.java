@@ -24,16 +24,23 @@ public class Hospital {
      * @param date       La fecha de la cita.
      * @param timeSlot   La franja horaria de la cita.
      */
-    public void createAppointment(Patient patient, String speciality, LocalDate date, int timeSlot) {
+    public void createAppointment(Patient patient, String speciality, LocalDate date, int timeSlot) throws EciSanitasException {
+        Doctor assignedDoctor = null;
+
+
         for (Doctor doctor : doctors) {
             if (doctor.getSpeciality().equals(speciality) && doctor.isAvailable(date, timeSlot)) {
-                // Delegar la creación de la cita al nuevo método encapsulado
-                generateAppointment(patient, doctor, date, timeSlot);
-                System.out.println("Cita creada exitosamente.");
-                return;
+                assignedDoctor = doctor;
+                break;
             }
         }
-        System.out.println("No hay doctores disponibles en esta especialidad para la fecha solicitada.");
+
+        if (assignedDoctor == null) {
+            throw new EciSanitasException(EciSanitasException.UNAVAILABLE_DOCTORS);
+        }
+
+        generateAppointment(patient, assignedDoctor, date, timeSlot);
+
     }
 
     /**
@@ -46,17 +53,23 @@ public class Hospital {
      * @param timeSlot La franja horaria de la cita.
      */
     private void generateAppointment(Patient patient, Doctor doctor, LocalDate date, int timeSlot) {
-        // Asignar el consultorio
-        Office office = doctor.getOffice();
 
-        // Crear la cita
-        Appointment appointment = new Appointment();
-        appointment.setDoctor(doctor);
-        appointment.setOffice(office);
-        appointment.setFecha(date);
-        appointment.setTime(timeSlot);
+        try {
+            // Asignar el consultorio
+            Office office = doctor.getOffice();
 
-        // Asociar la cita al paciente
-        patient.addAppointment(appointment);
+            // Crear la cita
+            Appointment appointment = new Appointment(doctor, office, date, timeSlot);
+            appointment.setDoctor(doctor);
+            appointment.setOffice(office);
+            appointment.setFecha(date);
+            appointment.setTime(timeSlot);
+
+            // Asociar la cita al paciente
+            patient.addAppointment(appointment);
+        } catch (EciSanitasException e) {
+            e.printStackTrace();
+        }
+
     }
 }

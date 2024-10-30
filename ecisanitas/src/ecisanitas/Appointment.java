@@ -18,4 +18,18 @@ public class Appointment {
     private List<PatientIllness> patientIllnesses;
     private List<Treatment> patientTreatments;
 
+
+    public Appointment(Doctor doctor, Office office, LocalDate fecha, int time) throws EciSanitasException {
+        validateTimeSlot(time);
+        this.fecha = fecha;
+        this.time = time;
+        this.doctor = doctor;
+        this.office = office;
+    }
+
+    private void validateTimeSlot(int time) throws EciSanitasException {
+        if (time < 1 || time > 36) {
+            throw new EciSanitasException(EciSanitasException.INVALID_TIME_SLOT);
+        }
+    }
 }
