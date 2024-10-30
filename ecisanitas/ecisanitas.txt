@@ -13,66 +13,66 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class Appointment {
+public class ecisanitas.Appointment {
 
     private String id;
     private LocalDate fecha;
     private int time;
     private String reason;
 
-    private Doctor doctor;
-    private Office office;
-    private List<PatientIllness> patientIllnesses;
-    private List<Treatment> patientTreatments;
+    private ecisanitas.Doctor doctor;
+    private ecisanitas.Office office;
+    private List<ecisanitas.PatientIllness> patientIllnesses;
+    private List<ecisanitas.Treatment> patientTreatments;
 
 }
 
 @Data
-public class Doctor {
+public class ecisanitas.Doctor {
 
     private String id;
     private String name;
     private String speciality;
     private String telefono;
 
-    private Office office;
+    private ecisanitas.Office office;
 
 
 }
 
 @Data
-public class ECISanitas {
+public class ecisanitas.ECISanitas {
 
-    private TreeMap<String, Patient> patients;
-    private TreeMap<String, Illness> illnesses;
-    private TreeMap<String, Hospital> hospitals;
+    private TreeMap<String, ecisanitas.Patient> patients;
+    private TreeMap<String, ecisanitas.Illness> illnesses;
+    private TreeMap<String, ecisanitas.Hospital> hospitals;
 
 }
 
 @Data
-public class Hospital {
+public class ecisanitas.Hospital {
 
     private String name;
     private String address;
 
-    private List<Treatment> treatments;
-    private List<Doctor> doctors;
-    private List<Office> offices;
-    private Location location;
+    private List<ecisanitas.Treatment> treatments;
+    private List<ecisanitas.Doctor> doctors;
+    private List<ecisanitas.Office> offices;
+    private ecisanitas.Location location;
 
 }
 
 @Data
-public class Illness {
+public class ecisanitas.Illness {
 
     private String name;
     private String description;
-    private List<Treatment> treatments;
+    private List<ecisanitas.Treatment> treatments;
 
 }
 
 @Data
-public class Location {
+public class ecisanitas.Location {
 
     private String department;
     private String city;
@@ -80,16 +80,16 @@ public class Location {
 }
 
 @Data
-public class MedicalHistory {
+public class ecisanitas.MedicalHistory {
 
     private LocalDate startDate;
-    private Patient patient;
-    private List<PatientIllness> patientIllnesses;
+    private ecisanitas.Patient patient;
+    private List<ecisanitas.PatientIllness> patientIllnesses;
 
 }
 
 @Data
-public class Office {
+public class ecisanitas.Office {
 
     private int number;
     private int type;
@@ -97,7 +97,7 @@ public class Office {
 }
 
 @Data
-public class Patient {
+public class ecisanitas.Patient {
 
     private String idCard;
     private String name;
@@ -105,23 +105,23 @@ public class Patient {
     private LocalDate birthDate;
     private LocalDate registrationDate;
 
-    private MedicalHistory medicalHistory;
-    private List<Appointment> appointments;
+    private ecisanitas.MedicalHistory medicalHistory;
+    private List<ecisanitas.Appointment> appointments;
 
 }
 
 @Data
-public class PatientIllness {
+public class ecisanitas.PatientIllness {
 
     private int riskLevel;
-    private Appointment appointment;
-    private Illness illness;
-    private List<Treatment> treatments;
+    private ecisanitas.Appointment appointment;
+    private ecisanitas.Illness illness;
+    private List<ecisanitas.Treatment> treatments;
 
 }
 
 @Data
-public class Treatment {
+public class ecisanitas.Treatment {
 
     private String name;
     private String description;

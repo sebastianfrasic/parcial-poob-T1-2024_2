@@ -1,3 +1,5 @@
+package ecisanitas;
+
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -29,7 +31,7 @@ public class Patient {
     }
 
     public void addPatientIllness(Illness illness, Treatment treatment) {
-        // Crear una nueva instancia de PatientIllness
+        // Crear una nueva instancia de ecisanitas.PatientIllness
         PatientIllness newIllness = new PatientIllness();
         newIllness.setIllness(illness);
 
@@ -40,5 +42,9 @@ public class Patient {
         // Agregar a la historia clínica
         medicalHistory.getPatientIllnesses().add(newIllness);
         System.out.println("Historia clínica actualizada con éxito");
+    }
+
+    public void talk(){
+        System.out.println("Hola");
     }
 }

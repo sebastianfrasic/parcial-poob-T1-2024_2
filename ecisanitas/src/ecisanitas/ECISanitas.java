@@ -1,7 +1,8 @@
+package ecisanitas;
+
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.TreeMap;
 
 @Data
@@ -37,13 +38,34 @@ public class ECISanitas {
      * @param timeSlot            Franja horaria de la cita (1 = 8:00 a.m., 36 = 8:00 p.m.).
      */
     public void scheduleAppointment(String patientId, String hospitalName, String requestedSpeciality, LocalDate date, int timeSlot) {
-        Patient patient = patients.get(patientId);
-        Hospital hospital = hospitals.get(hospitalName);
+        try {
+            Patient patient = getPatient(patientId);
 
-        if (patient != null && hospital != null) {
+            Hospital hospital = getHospital(hospitalName);
+
             hospital.createAppointment(patient, requestedSpeciality, date, timeSlot);
+
+        } catch (EciSanitasException e) {
+            System.out.println("Error: " + e.getLocalizedMessage());
         }
 
+    }
+
+
+    private Patient getPatient(String patientId) throws EciSanitasException {
+        Patient patient = patients.get(patientId);
+        if (patient == null) {
+            throw new EciSanitasException(EciSanitasException.PATIENT_NOT_FOUND);
+        }
+        return patient;
+    }
+
+    private Hospital getHospital(String hospitalName) throws EciSanitasException {
+        Hospital hospital = hospitals.get(hospitalName);
+        if (hospital == null) {
+            throw new EciSanitasException(EciSanitasException.HOSPITAL_NOT_FOUND);
+        }
+        return hospital;
     }
 
     public void updateMedicalHistory(String patientId, String illnessName, Treatment treatment) {

@@ -1,3 +1,5 @@
+package ecisanitas;
+
 import lombok.Data;
 
 import java.util.List;
