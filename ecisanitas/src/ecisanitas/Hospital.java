@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class Hospital {
+public class Hospital implements AppointmentProcessable {
 
     private String name;
     private String address;
@@ -24,7 +24,7 @@ public class Hospital {
      * @param date       La fecha de la cita.
      * @param timeSlot   La franja horaria de la cita.
      */
-    public void createAppointment(Patient patient, String speciality, LocalDate date, int timeSlot) throws EciSanitasException {
+    public Appointment createAppointment(Patient patient, String speciality, LocalDate date, int timeSlot) throws EciSanitasException {
         Doctor assignedDoctor = null;
 
 
@@ -39,7 +39,7 @@ public class Hospital {
             throw new EciSanitasException(EciSanitasException.UNAVAILABLE_DOCTORS);
         }
 
-        generateAppointment(patient, assignedDoctor, date, timeSlot);
+        return generateAppointment(patient, assignedDoctor, date, timeSlot);
 
     }
 
@@ -51,8 +51,9 @@ public class Hospital {
      * @param doctor   El doctor asignado.
      * @param date     La fecha de la cita.
      * @param timeSlot La franja horaria de la cita.
+     * @return
      */
-    private void generateAppointment(Patient patient, Doctor doctor, LocalDate date, int timeSlot) {
+    private Appointment generateAppointment(Patient patient, Doctor doctor, LocalDate date, int timeSlot) {
 
         try {
             // Asignar el consultorio
@@ -60,16 +61,23 @@ public class Hospital {
 
             // Crear la cita
             Appointment appointment = new Appointment(doctor, office, date, timeSlot);
-            appointment.setDoctor(doctor);
-            appointment.setOffice(office);
-            appointment.setFecha(date);
-            appointment.setTime(timeSlot);
 
             // Asociar la cita al paciente
             patient.addAppointment(appointment);
+            return appointment;
         } catch (EciSanitasException e) {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    @Override
+    public void notifyAppointment(Notification notification) {
+        System.out.println("Notificación para el hospital " + name + ": " + notification.getMessage() +
+                " para el paciente " + notification.getAppointment().getDoctor().getName() +
+                " con el doctor " + notification.getAppointment().getDoctor().getName() +
+                " en la fecha " + notification.getAppointment().getFecha() +
+                " en la franja " + notification.getAppointment().getTime() + ".");
     }
 }

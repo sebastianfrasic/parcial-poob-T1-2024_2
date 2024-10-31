@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class Doctor {
+public class Doctor implements AppointmentProcessable {
 
     private String id;
     private String name;
@@ -28,4 +28,13 @@ public class Doctor {
         // Por simplicidad, retornamos el valor del atributo isAvailable.
         return this.isAvailable;
     }
+
+    @Override
+    public void notifyAppointment(Notification notification) {
+        System.out.println("Notificación para el doctor " + name + ": " + notification.getMessage() +
+                " para el paciente " + notification.getAppointment().getDoctor().getName() +
+                " en la fecha " + notification.getAppointment().getFecha() +
+                " en la franja " + notification.getAppointment().getTime() + ".");
+    }
+
 }

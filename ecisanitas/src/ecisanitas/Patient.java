@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Patient {
+public class Patient implements AppointmentProcessable {
 
     private String idCard;
     private String name;
@@ -44,7 +44,14 @@ public class Patient {
         System.out.println("Historia clínica actualizada con éxito");
     }
 
-    public void talk(){
+    public void talk() {
         System.out.println("Hola");
+    }
+
+    @Override
+    public void notifyAppointment(Notification notification) {
+        System.out.println("Notificación para el paciente " + name + ": " + notification.getMessage() +
+                " en la fecha " + notification.getAppointment().getFecha() +
+                " en la franja " + notification.getAppointment().getTime() + ".");
     }
 }

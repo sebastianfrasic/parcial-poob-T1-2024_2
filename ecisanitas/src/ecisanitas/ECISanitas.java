@@ -43,7 +43,13 @@ public class ECISanitas {
 
             Hospital hospital = getHospital(hospitalName);
 
-            hospital.createAppointment(patient, requestedSpeciality, date, timeSlot);
+            Appointment appointment = hospital.createAppointment(patient, requestedSpeciality, date, timeSlot);
+
+            // Crear y enviar notificación a cada participante
+            Notification notification = new Notification(appointment);
+            hospital.notifyAppointment(notification);
+            appointment.getDoctor().notifyAppointment(notification);
+            patient.notifyAppointment(notification);
 
         } catch (EciSanitasException e) {
             System.out.println("Error: " + e.getLocalizedMessage());
